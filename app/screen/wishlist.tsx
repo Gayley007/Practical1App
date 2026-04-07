@@ -16,6 +16,7 @@ type WishlistItem = {
 };
 
 const wishlist: WishlistItem[] = [
+  // Static sample projects shown in the grid.
   {
     id: "1",
     name: "Jellyfish",
@@ -60,6 +61,7 @@ export default function Wishlist() {
         keyExtractor={(item) => item.id}
         contentContainerStyle={styles.content}
         columnWrapperStyle={styles.gridRow}
+        // Header card shown once above all project tiles.
         ListHeaderComponent={
           <View style={styles.headerCard}>
             <Text style={styles.kicker}>CROCHET PLANS</Text>

@@ -47,6 +47,7 @@ export default function Inventory() {
         data={inventory}
         keyExtractor={(item) => item.id}
         contentContainerStyle={styles.content}
+        // Top section shown before the list items.
         ListHeaderComponent={
           <>
             <View style={styles.headerCard}>
@@ -81,6 +82,7 @@ export default function Inventory() {
           </>
         }
         renderItem={({ item }) => (
+          // One yarn card per item.
           <View style={styles.itemCard}>
             <Text style={styles.itemTitle}>{item.type}</Text>
             <Text style={styles.itemText}>Color: {item.color}</Text>

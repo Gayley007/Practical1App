@@ -47,7 +47,9 @@ const ThemeContext = createContext<ThemeContextValue | undefined>(undefined);
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
   const [isDark, setIsDark] = useState(false);
+  // Called by the button to switch light/dark mode.
   const toggleTheme = () => setIsDark((prev) => !prev);
+  // Picks which color set is active.
   const theme = isDark ? darkTheme : lightTheme;
 
   return (

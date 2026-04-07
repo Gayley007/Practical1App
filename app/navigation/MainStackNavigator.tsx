@@ -15,6 +15,7 @@ const Tab = createBottomTabNavigator<RootTabParamList>();
 
 export default function MainStackNavigator() {
   const insets = useSafeAreaInsets();
+  // Keeps tab bar above device bottom area.
   const bottomSpace = Math.max(insets.bottom, 10);
   const { theme } = useThemeContext();
 
@@ -22,6 +23,7 @@ export default function MainStackNavigator() {
     <Tab.Navigator
       initialRouteName="Inventory"
       screenOptions={{
+        // Shared look for both tab screens.
         headerStyle: { backgroundColor: theme.card },
         headerTintColor: theme.primaryText,
         headerTitleStyle: { fontWeight: "700" },

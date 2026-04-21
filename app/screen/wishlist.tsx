@@ -6,6 +6,7 @@ import {
   StyleSheet,
   Text,
   View,
+  useWindowDimensions,
 } from "react-native";
 import { ThemeColors, useThemeContext } from "../theme/Theme";
 
@@ -16,7 +17,6 @@ type WishlistItem = {
 };
 
 const wishlist: WishlistItem[] = [
-  // Static sample projects shown in the grid.
   {
     id: "1",
     name: "Jellyfish",
@@ -51,17 +51,20 @@ const wishlist: WishlistItem[] = [
 
 export default function Wishlist() {
   const { theme } = useThemeContext();
+  const { width } = useWindowDimensions();
+  const isWide = width >= 600;
+  const columns = isWide ? 3 : 2;
   const styles = createStyles(theme);
 
   return (
     <View style={styles.screen}>
       <FlatList
+        key={`wishlist-${columns}`}
         data={wishlist}
-        numColumns={2}
+        numColumns={columns}
         keyExtractor={(item) => item.id}
         contentContainerStyle={styles.content}
-        columnWrapperStyle={styles.gridRow}
-        // Header card shown once above all project tiles.
+        columnWrapperStyle={columns > 1 ? styles.gridRow : undefined}
         ListHeaderComponent={
           <View style={styles.headerCard}>
             <Text style={styles.kicker}>CROCHET PLANS</Text>
@@ -69,9 +72,8 @@ export default function Wishlist() {
             <Text style={styles.subtitle}>Simple project idea board.</Text>
           </View>
         }
-        // Each item is one project card in the grid.
         renderItem={({ item }) => (
-          <View style={styles.projectTile}>
+          <View style={[styles.projectTile, { width: isWide ? "31%" : "48%" }]}>
             <View style={styles.placeholderBox}>
               <Image
                 source={item.image}
@@ -126,7 +128,6 @@ function createStyles(theme: ThemeColors) {
       marginBottom: 10,
     },
     projectTile: {
-      width: "48%",
       backgroundColor: theme.card,
       borderRadius: 12,
       padding: 10,

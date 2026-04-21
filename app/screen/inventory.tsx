@@ -1,5 +1,12 @@
 import React from "react";
-import { FlatList, Pressable, StyleSheet, Text, View } from "react-native";
+import {
+  FlatList,
+  Pressable,
+  StyleSheet,
+  Text,
+  View,
+  useWindowDimensions,
+} from "react-native";
 import { ThemeColors, useThemeContext } from "../theme/Theme";
 
 type YarnItem = {
@@ -23,12 +30,14 @@ const extraItems: YarnItem[] = [
 
 export default function Inventory() {
   const { isDark, theme, toggleTheme } = useThemeContext();
+  const { width } = useWindowDimensions();
+  const isWide = width >= 600;
   const [inventory, setInventory] = React.useState<YarnItem[]>(starterItems);
   const [extraIndex, setExtraIndex] = React.useState(0);
 
   const totalSkeins = inventory.reduce((sum, item) => sum + item.quantity, 0);
 
-  // Adds one sample item so the FlatList can be tested quickly.
+  // Keeps Practical 1 behavior: add one sample item into the list.
   const addSampleYarn = () => {
     const nextItem = extraItems[extraIndex % extraItems.length];
 
@@ -47,7 +56,6 @@ export default function Inventory() {
         data={inventory}
         keyExtractor={(item) => item.id}
         contentContainerStyle={styles.content}
-        // Top section shown before the list items.
         ListHeaderComponent={
           <>
             <View style={styles.headerCard}>
@@ -56,7 +64,7 @@ export default function Inventory() {
               <Text style={styles.subtitle}>Simple yarn tracking.</Text>
             </View>
 
-            <View style={styles.statsRow}>
+            <View style={[styles.statsRow, !isWide && styles.statsRowNarrow]}>
               <View style={styles.statCard}>
                 <Text style={styles.statLabel}>Yarn Types</Text>
                 <Text style={styles.statValue}>{inventory.length}</Text>
@@ -82,7 +90,6 @@ export default function Inventory() {
           </>
         }
         renderItem={({ item }) => (
-          // One yarn card per item.
           <View style={styles.itemCard}>
             <Text style={styles.itemTitle}>{item.type}</Text>
             <Text style={styles.itemText}>Color: {item.color}</Text>
@@ -134,6 +141,9 @@ function createStyles(theme: ThemeColors) {
       flexDirection: "row",
       gap: 8,
       marginBottom: 10,
+    },
+    statsRowNarrow: {
+      flexDirection: "column",
     },
     statCard: {
       flex: 1,

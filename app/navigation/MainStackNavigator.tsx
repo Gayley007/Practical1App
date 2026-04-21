@@ -2,8 +2,8 @@ import { Ionicons } from "@expo/vector-icons";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import React from "react";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import Home from "../screen/inventory";
-import About from "../screen/wishlist";
+import InventoryScreen from "../screen/inventory";
+import WishlistScreen from "../screen/wishlist";
 import { useThemeContext } from "../theme/Theme";
 
 export type RootTabParamList = {
@@ -15,7 +15,6 @@ const Tab = createBottomTabNavigator<RootTabParamList>();
 
 export default function MainStackNavigator() {
   const insets = useSafeAreaInsets();
-  // Keeps tab bar above device bottom area.
   const bottomSpace = Math.max(insets.bottom, 10);
   const { theme } = useThemeContext();
 
@@ -23,7 +22,7 @@ export default function MainStackNavigator() {
     <Tab.Navigator
       initialRouteName="Inventory"
       screenOptions={{
-        // Shared look for both tab screens.
+        // Shared style for header and tab bar.
         headerStyle: { backgroundColor: theme.card },
         headerTintColor: theme.primaryText,
         headerTitleStyle: { fontWeight: "700" },
@@ -45,7 +44,7 @@ export default function MainStackNavigator() {
     >
       <Tab.Screen
         name="Inventory"
-        component={Home}
+        component={InventoryScreen}
         options={{
           title: "Yarn Inventory",
           tabBarIcon: ({ color, size }) => (
@@ -55,7 +54,7 @@ export default function MainStackNavigator() {
       />
       <Tab.Screen
         name="Wishlist"
-        component={About}
+        component={WishlistScreen}
         options={{
           title: "Project Wishlist",
           tabBarIcon: ({ color, size }) => (
